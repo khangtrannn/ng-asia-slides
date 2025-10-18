@@ -186,7 +186,7 @@ if (changeDetectionPhase) {
   );
 }`}
           />
-          <p className="text-gray-300 text-2xl bg-gray-800 rounded-lg">
+          <p className="text-gray-300 p-4 text-[16px] bg-gray-800 rounded-lg">
             This is <strong className="text-yellow-400">dirty checking</strong> at its core: compare oldValue to update if different
           </p>
         </div>
@@ -1975,16 +1975,40 @@ zone.runOutsideAngular(() => {
   ];
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
+    if (!document.startViewTransition) {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+      return;
+    }
+    
+    document.startViewTransition(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    });
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+    if (!document.startViewTransition) {
+      setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+      return;
+    }
+    
+    document.startViewTransition(() => {
+      setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+    });
   };
 
   // Keyboard navigation
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      const transitionSlide = (newSlide: number) => {
+        if (!document.startViewTransition) {
+          setCurrentSlide(newSlide);
+          return;
+        }
+        document.startViewTransition(() => {
+          setCurrentSlide(newSlide);
+        });
+      };
+
       switch (event.key) {
         case 'ArrowLeft':
           if (currentSlide > 0) prevSlide();
@@ -1997,10 +2021,10 @@ zone.runOutsideAngular(() => {
           if (currentSlide < slides.length - 1) nextSlide();
           break;
         case 'Home':
-          setCurrentSlide(0);
+          transitionSlide(0);
           break;
         case 'End':
-          setCurrentSlide(slides.length - 1);
+          transitionSlide(slides.length - 1);
           break;
       }
     };
@@ -2027,7 +2051,7 @@ zone.runOutsideAngular(() => {
 
       {/* Main Content */}
       <div className="flex-1 flex items-center justify-center overflow-hidden">
-        <div className={`w-full h-full max-w-[1920px] flex flex-col ${currentSlide === 0 ? '' : 'p-8 pb-0'}`}>
+        <div className={`w-full h-full max-w-[1920px] flex flex-col ${currentSlide === 0 ? '' : 'p-8 pb-0'}`} style={{ viewTransitionName: 'slide-content' }}>
           <div className={`${currentSlide === 0 ? '' : 'mb-4'}`}>
             <h1 className="text-3xl font-bold mb-1">{slides[currentSlide].title}</h1>
             <h2 className="text-lg text-gray-400">{slides[currentSlide].subtitle}</h2>

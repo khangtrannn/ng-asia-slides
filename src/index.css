@@ -16,3 +16,104 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* View Transitions */
+/* Prevent white flicker by ensuring background is maintained */
+::view-transition {
+  background-color: rgb(3 7 18); /* gray-950 */
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  mix-blend-mode: normal;
+  background-color: rgb(3 7 18); /* gray-950 */
+}
+
+/* Ensure both states have proper background */
+::view-transition-old(root) {
+  animation-name: fade-out;
+}
+
+::view-transition-new(root) {
+  animation-name: fade-in;
+}
+
+/* Smooth slide content transitions */
+::view-transition-old(slide-content),
+::view-transition-new(slide-content) {
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: rgb(3 7 18); /* gray-950 */
+}
+
+::view-transition-old(slide-content) {
+  animation-name: slide-out;
+}
+
+::view-transition-new(slide-content) {
+  animation-name: slide-in;
+}
+
+/* Simple fade animations to prevent white flicker */
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Slide animations for content */
+@keyframes slide-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Support for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root),
+  ::view-transition-old(slide-content),
+  ::view-transition-new(slide-content) {
+    animation-duration: 0.1s;
+  }
+  
+  @keyframes slide-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+  @keyframes slide-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
