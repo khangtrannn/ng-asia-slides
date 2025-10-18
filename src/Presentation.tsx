@@ -145,7 +145,7 @@ function changeDetection() {
       subtitle: "The Foundation of Angular Architecture",
       content: (
         <div className="space-y-8">
-          <div className="p-6 rounded-lg">
+          <div className="rounded-lg">
             <h3 className="text-2xl font-semibold mb-6 text-blue-400">Two Building Blocks</h3>
             <div className="space-y-6">
               <div className="border-l-4 border-green-500 pl-6">
@@ -186,7 +186,7 @@ if (changeDetectionPhase) {
   );
 }`}
           />
-          <p className="text-gray-300 text-2xl bg-gray-800 p-6 rounded-lg">
+          <p className="text-gray-300 text-2xl bg-gray-800 rounded-lg">
             This is <strong className="text-yellow-400">dirty checking</strong> at its core: compare oldValue to update if different
           </p>
         </div>
@@ -233,7 +233,7 @@ if (changeDetectionPhase) {
             <p className="text-gray-300 text-xl">Zone.js is a <strong>notifier</strong>, not the detector</p>
           </div>
           <div className="grid grid-cols-2 gap-6">
-            <div className="p-6 rounded-lg">
+            <div className="rounded-lg">
               <h4 className="font-semibold text-green-400 mb-4 text-xl">What Zone.js Does</h4>
               <ul className="text-lg space-y-2 text-gray-300">
                 <li>• Patches async APIs</li>
@@ -242,7 +242,7 @@ if (changeDetectionPhase) {
                 <li>• Notifies ApplicationRef</li>
               </ul>
             </div>
-            <div className="p-6 rounded-lg">
+            <div className="rounded-lg">
               <h4 className="font-semibold text-red-400 mb-4 text-xl">What Zone.js Does Not Do</h4>
               <ul className="text-lg space-y-2 text-gray-300">
                 <li>• Run change detection</li>
@@ -270,7 +270,7 @@ if (changeDetectionPhase) {
       subtitle: "Why Angular Checks Top-Down",
       content: (
         <div className="space-y-6">
-          <div className="p-6 rounded-lg">
+          <div className="rounded-lg">
             <h3 className="text-xl font-semibold mb-4 text-blue-400">The Invariant Problem</h3>
             <CodeBlock
               language="typescript"
@@ -285,7 +285,7 @@ if (changeDetectionPhase) {
               Parents must run first to enforce invariants on children
             </p>
           </div>
-          <div className="p-6 rounded-lg">
+          <div className="rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-green-400">Change Detection Order</h3>
             <div className="space-y-2 text-sm font-mono">
               <div>1. Update @Input bindings on child</div>
@@ -327,7 +327,7 @@ Lifecycle hook: value = C
 CD Run 3: value = C, update DOM
 ... infinite loop ...`}
           />
-          <div className="p-6 rounded-lg">
+          <div className="rounded-lg">
             <h4 className="font-semibold text-yellow-400 mb-2">The Rule</h4>
             <p className="text-gray-300">
               Once Angular processes bindings for a component, you cannot update properties 
@@ -343,7 +343,7 @@ CD Run 3: value = C, update DOM
       content: (
         <div className="space-y-6">
           <div className="grid grid-cols-2 gap-4">
-            <div className="p-4 rounded-lg">
+            <div className="rounded-lg">
               <h4 className="font-semibold text-blue-400 mb-3">Default (CheckAlways)</h4>
               <ul className="text-sm space-y-2 text-gray-300">
                 <li>✓ Checks every CD cycle</li>
@@ -352,7 +352,7 @@ CD Run 3: value = C, update DOM
                 <li>✗ Does not scale</li>
               </ul>
             </div>
-            <div className="p-4 rounded-lg">
+            <div className="rounded-lg">
               <h4 className="font-semibold text-purple-400 mb-3">OnPush (CheckOnce)</h4>
               <ul className="text-sm space-y-2 text-gray-300">
                 <li>✓ Skips if not dirty</li>
@@ -362,7 +362,7 @@ CD Run 3: value = C, update DOM
               </ul>
             </div>
           </div>
-          <div className="p-6 rounded-lg">
+          <div className="rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-green-400">What Makes OnPush Dirty?</h3>
             <div className="space-y-2 text-sm">
               <div>• @Input reference change</div>
@@ -434,7 +434,7 @@ CD Run 3: value = C, update DOM
   }
 }`}
           />
-          <div className="p-6 rounded-lg">
+          <div className="rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-purple-400">The Loop Flow</h3>
             <div className="space-y-2 text-sm">
               <div>1. Check if dirtyFlags indicate work needed</div>
@@ -470,7 +470,7 @@ CD Run 3: value = C, update DOM
               </div>
             </div>
           </div>
-          <div className="p-6 rounded-lg">
+          <div className="rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-blue-400">Dependency Tracking</h3>
             <CodeBlock 
               language="typescript"
@@ -481,7 +481,7 @@ const isEven = computed(() => counter() % 2 === 0);
 // consumer tracks: isEven to counter`}
             />
           </div>
-          <div className="p-6 rounded-lg">
+          <div className="rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-purple-400">Active Consumer Pattern</h3>
             <p className="text-sm text-gray-300 mb-3">
               When a computed is evaluated, it becomes the active consumer. 
@@ -503,7 +503,7 @@ const isEven = computed(() => counter() % 2 === 0);
       subtitle: "Fine-Grained Reactivity Without Zone.js",
       content: (
         <div className="space-y-6">
-          <div className="p-6 rounded-lg">
+          <div className="rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-green-400">markAncestorsForTraversal</h3>
             <p className="text-sm text-gray-300 mb-3">
               When a signal changes, it does not mark the component as Dirty. 
@@ -546,7 +546,7 @@ Child: RefreshView (reactive consumer dirty)`}
   ]);
 }`}
           />
-          <div className="p-6 rounded-lg">
+          <div className="rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-purple-400">What Triggers CD in Zoneless?</h3>
             <div className="space-y-2 text-sm">
               <div>✓ signal.set / signal.update</div>
@@ -576,7 +576,7 @@ Child: RefreshView (reactive consumer dirty)`}
             <h3 className="text-xl font-semibold mb-4">Zone.js + Signals Together</h3>
             <p className="text-gray-300">Angular v18 introduced hybrid mode where both systems coexist</p>
           </div>
-          <div className="p-6 rounded-lg">
+          <div className="rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-green-400">The Problem It Solves</h3>
             <CodeBlock 
               language="typescript"
@@ -590,7 +590,7 @@ zone.runOutsideAngular(() => {
 // v18+: Signal.set now schedules CD regardless of zone context`}
             />
           </div>
-          <div className="p-6 rounded-lg">
+          <div className="rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-blue-400">shouldScheduleTick Logic</h3>
             <div className="space-y-3 text-sm">
               <div>
@@ -621,7 +621,7 @@ zone.runOutsideAngular(() => {
       subtitle: "Running CD for a Specific Subtree",
       content: (
         <div className="space-y-6">
-          <div className="p-6 rounded-lg">
+          <div className="rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-blue-400">What is detectChanges?</h3>
             <p className="text-sm text-gray-300 mb-3">
               A method on ChangeDetectorRef that runs change detection for a specific component and its children only
@@ -695,7 +695,7 @@ export class MyComponent {
   }
 }`}
           />
-          <div className="p-6 rounded-lg">
+          <div className="rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-purple-400">What markForCheck Actually Does</h3>
             <div className="space-y-2 text-sm">
               <div>1. Sets LViewFlags.Dirty on current component</div>
@@ -784,7 +784,7 @@ export class Child implements AfterViewInit {
   }
 }`}
           />
-          <div className="p-6 rounded-lg">
+          <div className="rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-yellow-400">Why This Happens</h3>
             <div className="space-y-2 text-sm text-gray-300">
               <div>1. Angular checks parent, reads parentData = 'initial'</div>
@@ -803,7 +803,7 @@ export class Child implements AfterViewInit {
       content: (
         <div className="space-y-6">
           <div className="grid grid-cols-2 gap-4">
-            <div className="p-4 rounded-lg">
+            <div className="rounded-lg">
               <h4 className="font-semibold text-green-400 mb-3">Solution 1: setTimeout</h4>
               <CodeBlock 
                 language="typescript"
@@ -817,7 +817,7 @@ export class Child implements AfterViewInit {
                 Defers update to next CD cycle via macro task
               </p>
             </div>
-            <div className="p-4 rounded-lg">
+            <div className="rounded-lg">
               <h4 className="font-semibold text-blue-400 mb-3">Solution 2: Promise</h4>
               <CodeBlock 
                 language="typescript"
@@ -833,7 +833,7 @@ export class Child implements AfterViewInit {
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <div className="p-4 rounded-lg">
+            <div className="rounded-lg">
               <h4 className="font-semibold text-purple-400 mb-3">Solution 3: ChangeDetectorRef</h4>
               <CodeBlock 
                 language="typescript"
@@ -846,7 +846,7 @@ export class Child implements AfterViewInit {
                 Manually run CD for parent subtree
               </p>
             </div>
-            <div className="p-4 rounded-lg">
+            <div className="rounded-lg">
               <h4 className="font-semibold text-yellow-400 mb-3">Solution 4: Redesign</h4>
               <CodeBlock 
                 language="typescript"
@@ -898,7 +898,7 @@ effect(() => {
   console.log('Count is:', count());
 });`}
           />
-          <div className="p-6 rounded-lg">
+          <div className="rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-purple-400">Key Properties</h3>
             <div className="grid grid-cols-2 gap-3 text-sm">
               <div className="border-l-4 border-green-500 pl-3">
@@ -927,7 +927,7 @@ effect(() => {
       subtitle: "Producer-Consumer Dependency Tracking",
       content: (
         <div className="space-y-6">
-          <div className="p-6 rounded-lg">
+          <div className="rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-blue-400">Reactive Node Structure</h3>
             <CodeBlock 
               language="typescript"
@@ -955,7 +955,7 @@ firstName.liveConsumerNode = [fullName];
 lastName.liveConsumerNode = [fullName];
 fullName.producerNode = [firstName, lastName];`}
           />
-          <div className="p-6 rounded-lg">
+          <div className="rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-purple-400">Active Consumer Pattern</h3>
             <div className="space-y-2 text-sm text-gray-300">
               <div>1. Set global activeConsumer = fullName</div>
@@ -1030,7 +1030,7 @@ function signalValueChanged(node: ReactiveNode) {
       content: (
         <div className="space-y-6">
           <div className="grid grid-cols-2 gap-4">
-            <div className="p-4 rounded-lg">
+            <div className="rounded-lg">
               <h4 className="font-semibold text-red-400 mb-3">Global Mode (Default/Zone.js)</h4>
               <div className="space-y-2 text-xs">
                 <div className="text-gray-300">• Checks CheckAlways components</div>
@@ -1039,7 +1039,7 @@ function signalValueChanged(node: ReactiveNode) {
                 <div className="text-yellow-400 mt-2">Zone.js event → entire tree checked</div>
               </div>
             </div>
-            <div className="p-4 rounded-lg">
+            <div className="rounded-lg">
               <h4 className="font-semibold text-green-400 mb-3">Targeted Mode (Signals)</h4>
               <div className="space-y-2 text-xs">
                 <div className="text-gray-300">• Only checks RefreshView</div>
@@ -1113,7 +1113,7 @@ export class Child implements AfterViewInit {
   }
 }`}
           />
-          <div className="p-6 rounded-lg">
+          <div className="rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-blue-400">Why This Works</h3>
             <div className="space-y-2 text-sm text-gray-300">
               <div>1. Parent is checked, reads parentData signal</div>
@@ -1206,7 +1206,7 @@ export class MyComponent {
   }
 }`}
           />
-          <div className="p-6 rounded-lg">
+          <div className="rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-purple-400">Effect Scheduling</h3>
             <div className="space-y-2 text-sm text-gray-300">
               <div>• Effects run BEFORE view refresh</div>
@@ -1324,7 +1324,7 @@ bootstrapApplication(AppComponent, {
       subtitle: "Optimizing Change Detection with CheckOnce",
       content: (
         <div className="space-y-6">
-          <div className="p-6 rounded-lg">
+          <div className="rounded-lg">
             <h3 className="text-2xl font-semibold mb-4 text-blue-400">Two Strategies</h3>
             <CodeBlock 
               language="typescript"
@@ -1367,7 +1367,7 @@ bootstrapApplication(AppComponent, {
       subtitle: "The Five Triggers",
       content: (
         <div className="space-y-6">
-          <div className="p-6 rounded-lg">
+          <div className="rounded-lg">
             <h3 className="text-2xl font-semibold mb-4 text-green-400">Automatic Dirtiness Triggers</h3>
             <div className="space-y-3 text-lg">
               <div className="flex items-start gap-3">
@@ -1491,7 +1491,7 @@ bootstrapApplication(AppComponent, {
               By marking all ancestors, we ensure the dirty component is reached during traversal.
             </p>
           </div>
-          <div className="p-4 rounded-lg">
+          <div className="rounded-lg">
             <h4 className="font-semibold text-green-400 mb-2">Execution Steps</h4>
             <div className="space-y-1 text-sm">
               <div>1. Notify scheduler (v18+)</div>
@@ -1591,19 +1591,19 @@ effect(() => {
 });`}
           />
           <div className="grid grid-cols-2 gap-3">
-            <div className="border-l-4 border-green-500 pl-3 p-3">
+            <div className="border-l-4 border-green-500 pl-3">
               <strong className="text-green-400">Automatic Tracking</strong>
               <p className="text-sm text-gray-400">Dependencies tracked during read</p>
             </div>
-            <div className="border-l-4 border-blue-500 pl-3 p-3">
+            <div className="border-l-4 border-blue-500 pl-3">
               <strong className="text-blue-400">Lazy Computed</strong>
               <p className="text-sm text-gray-400">Only recompute when read</p>
             </div>
-            <div className="border-l-4 border-purple-500 pl-3 p-3">
+            <div className="border-l-4 border-purple-500 pl-3">
               <strong className="text-purple-400">Glitch-Free</strong>
               <p className="text-sm text-gray-400">Consistent state within tick</p>
             </div>
-            <div className="border-l-4 border-pink-500 pl-3 p-3">
+            <div className="border-l-4 border-pink-500 pl-3">
               <strong className="text-pink-400">Fine-Grained</strong>
               <p className="text-sm text-gray-400">Only affected consumers notified</p>
             </div>
@@ -1734,7 +1734,7 @@ function signalValueChanged(node: ReactiveNode) {
               </div>
             </div>
           </div>
-          <div className="p-6 rounded-lg">
+          <div className="rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-purple-400">Mode Switching</h3>
             <div className="space-y-2 text-sm bg-gray-800 p-4 rounded">
               <div><strong className="text-blue-400">Global + OnPush</strong> → switch to Targeted for children</div>
@@ -1783,7 +1783,7 @@ export class Child implements AfterViewInit {
   }
 }`}
           />
-          <div className="p-6 rounded-lg">
+          <div className="rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-blue-400">Why This Works</h3>
             <div className="space-y-2 text-sm text-gray-300">
               <div>1. Parent checked, reads parentData signal</div>
@@ -1858,7 +1858,7 @@ bootstrapApplication(AppComponent, {
             <h3 className="text-2xl font-semibold mb-4">The Best of Both Worlds</h3>
             <p className="text-xl text-gray-300">Angular v18 introduced hybrid mode where both systems coexist</p>
           </div>
-          <div className="p-6 rounded-lg">
+          <div className="rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-green-400">The Problem It Solves</h3>
             <CodeBlock 
               language="typescript"
@@ -1877,7 +1877,7 @@ zone.runOutsideAngular(() => {
 });`}
             />
           </div>
-          <div className="p-6 rounded-lg">
+          <div className="rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-blue-400">shouldScheduleTick Logic</h3>
             <div className="space-y-3 text-sm">
               <div>
@@ -1947,7 +1947,7 @@ zone.runOutsideAngular(() => {
               </div>
             </div>
           </div>
-          <div className="p-6 rounded-lg">
+          <div className="rounded-lg">
             <h3 className="text-xl font-semibold mb-4 text-center text-blue-400">
               The Core Insight
             </h3>
@@ -2038,7 +2038,10 @@ zone.runOutsideAngular(() => {
           </div>)
           :   
           <div className="flex-1 rounded-lg pt-6 overflow-auto">
-            {slides[currentSlide].content}
+            <div className='pb-8'>
+              {slides[currentSlide].content}
+            </div>
+
           </div>
 
         }
