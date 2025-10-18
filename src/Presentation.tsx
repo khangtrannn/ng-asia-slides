@@ -37,10 +37,7 @@ const CodeBlock = ({ code, language = 'typescript', comment = '' }: { code: stri
   </div>
 );
 
-const Presentation = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  const slides = [
+export const slides = [
     {
       title: "",
       subtitle: "",
@@ -1973,6 +1970,9 @@ zone.runOutsideAngular(() => {
       )
     }
   ];
+
+const Presentation = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   const nextSlide = () => {
     if (!document.startViewTransition) {
