@@ -1,9 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { usePresentation } from './hooks/usePresentation';
 import ProgressBar from './components/ProgressBar';
-import CodeBlock from './components/CodeBlock';
-import TitleSlide from './components/TitleSlide';
-import { Zap, AlertTriangle } from 'lucide-react';
 
 // Import slides from the original file
 import { slides as originalSlides } from './Presentation';
