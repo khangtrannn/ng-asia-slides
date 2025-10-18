@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronRight, ChevronLeft, Zap, AlertTriangle } from 'lucide-react';
+import { Zap, AlertTriangle } from 'lucide-react';
 
 const Presentation = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -1411,36 +1411,6 @@ bootstrapApplication(AppComponent, {
           <div className="flex-1 overflow-auto">
             {slides[currentSlide].content}
           </div>
-        </div>
-
-        
-        <div className="mt-6 flex items-center justify-between">
-          <button
-            onClick={prevSlide}
-            disabled={currentSlide === 0}
-            className="flex items-center gap-3 px-8 py-4 bg-blue-600 rounded-lg hover:bg-blue-700 disabled:bg-gray-700 disabled:cursor-not-allowed transition-colors text-lg font-semibold"
-          >
-            <ChevronLeft size={24} />
-            Previous
-          </button>
-          
-          <div className="flex flex-col items-center gap-1">
-            <div className="text-gray-400 text-2xl font-semibold">
-              {currentSlide + 1} / {slides.length}
-            </div>
-            <div className="text-gray-500 text-sm">
-              Use ← → arrow keys or space to navigate
-            </div>
-          </div>
-          
-          <button
-            onClick={nextSlide}
-            disabled={currentSlide === slides.length - 1}
-            className="flex items-center gap-3 px-8 py-4 bg-blue-600 rounded-lg hover:bg-blue-700 disabled:bg-gray-700 disabled:cursor-not-allowed transition-colors text-lg font-semibold"
-          >
-            Next
-            <ChevronRight size={24} />
-          </button>
         </div>
       </div>
     </div>
