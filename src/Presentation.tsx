@@ -1,5 +1,31 @@
 import React, { useState } from 'react';
-import { Zap, AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
+import { Zap, AlertTriangle } from 'lucide-react';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+
+// Code block component with syntax highlighting
+const CodeBlock = ({ code, language = 'typescript', comment = '' }: { code: string; language?: string; comment?: string }) => (
+  <div className="bg-gray-900 rounded-lg overflow-hidden">
+    {comment && (
+      <div className="px-6 pt-4 pb-2 text-green-400 font-mono text-sm">
+        {comment}
+      </div>
+    )}
+    <SyntaxHighlighter
+      language={language}
+      style={vscDarkPlus}
+      customStyle={{
+        margin: 0,
+        padding: '1.5rem',
+        background: 'transparent',
+        fontSize: '0.9rem',
+      }}
+      showLineNumbers={false}
+    >
+      {code.trim()}
+    </SyntaxHighlighter>
+  </div>
+);
 
 const Presentation = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -48,10 +74,10 @@ const Presentation = () => {
       subtitle: "The Manual Era",
       content: (
         <div className="space-y-8">
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-base overflow-x-auto">
-            <div className="text-green-400 text-lg mb-3">// Plain JavaScript - Manual CD</div>
-            <pre className="text-white">
-{`let textContent = 'Initial';
+          <CodeBlock
+            language="javascript"
+            comment="// Plain JavaScript - Manual CD"
+            code={`let textContent = 'Initial';
 
 function render() {
   el.textContent = textContent;
@@ -62,8 +88,7 @@ function changeDetection() {
     el.textContent = textContent;
   }
 }`}
-            </pre>
-          </div>
+          />
           <div className="text-yellow-400 flex items-start gap-4 text-xl">
             <AlertTriangle className="mt-1 flex-shrink-0" size={28} />
             <div>
@@ -92,16 +117,14 @@ function changeDetection() {
               </div>
             </div>
           </div>
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-base overflow-x-auto">
-            <div className="text-green-400 text-lg mb-3">// Binding Structure</div>
-            <pre className="text-white">
-{`binding = {
+          <CodeBlock
+            comment="// Binding Structure"
+            code={`binding = {
   name: 'textContent',
   expression: 'time | date',
   oldValue: stored_in_LView
 }`}
-            </pre>
-          </div>
+          />
         </div>
       )
     },
@@ -110,10 +133,9 @@ function changeDetection() {
       subtitle: "How Templates Become Change Detection Code",
       content: (
         <div className="space-y-8">
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-base overflow-x-auto">
-            <div className="text-green-400 text-lg mb-3">// Template to compiled code</div>
-            <pre className="text-white">
-{`// Template: 
+          <CodeBlock
+            comment="// Template to compiled code"
+            code={`// Template: 
 [className]="'fa-star ' + (rating > 0 ? 'fas' : 'far')"
 
 // Compiled to:
@@ -122,8 +144,7 @@ if (changeDetectionPhase) {
     "fa-star " + (ctx.rating > 0 ? "fas" : "far")
   );
 }`}
-            </pre>
-          </div>
+          />
           <p className="text-gray-300 text-2xl bg-gray-800 p-6 rounded-lg">
             This is <strong className="text-yellow-400">dirty checking</strong> at its core: compare oldValue to update if different
           </p>
@@ -135,10 +156,9 @@ if (changeDetectionPhase) {
       subtitle: "The property() Implementation",
       content: (
         <div className="space-y-6">
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-base overflow-x-auto">
-            <div className="text-green-400 text-lg mb-3">// property implementation</div>
-            <pre className="text-white">
-{`export function property(propName, value) {
+          <CodeBlock
+            comment="// property implementation"
+            code={`export function property(propName, value) {
   const lView = getLView();
   const bindingIndex = nextBindingIndex();
   
@@ -148,8 +168,7 @@ if (changeDetectionPhase) {
   
   return property; // chainable
 }`}
-            </pre>
-          </div>
+          />
           <div className="space-y-4 text-lg text-gray-300 bg-gray-800 p-6 rounded-lg">
             <p><strong className="text-blue-400 text-xl">Key Steps:</strong></p>
             <ol className="list-decimal list-inside space-y-3 ml-4">
@@ -192,18 +211,16 @@ if (changeDetectionPhase) {
               </ul>
             </div>
           </div>
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-base overflow-x-auto">
-            <div className="text-green-400 text-lg mb-3">// Inside ApplicationRef</div>
-            <pre className="text-white">
-{`this._zone.onMicrotaskEmpty.subscribe({
+          <CodeBlock
+            comment="// Inside ApplicationRef"
+            code={`this._zone.onMicrotaskEmpty.subscribe({
   next: () => {
     this._zone.run(() => {
       this.tick(); // Actual CD happens here
     });
   }
 });`}
-            </pre>
-          </div>
+          />
         </div>
       )
     },
@@ -214,13 +231,12 @@ if (changeDetectionPhase) {
         <div className="space-y-6">
           <div className="bg-gray-900 p-6 rounded-lg">
             <h3 className="text-xl font-semibold mb-4 text-blue-400">The Invariant Problem</h3>
-            <div className="bg-gray-800 p-4 rounded font-mono text-sm">
-              <pre className="text-white">
-{`@if (user) {
+            <CodeBlock
+              language="typescript"
+              code={`@if (user) {
   {{ user.name }}
 }`}
-              </pre>
-            </div>
+            />
             <p className="mt-4 text-gray-300">
               If we check user.name before checking the @if, we crash when user becomes undefined.
             </p>
@@ -259,10 +275,9 @@ if (changeDetectionPhase) {
               </div>
             </div>
           </div>
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-xs overflow-x-auto">
-            <div className="text-green-400">// Why the check exists</div>
-            <pre className="mt-2 text-gray-300">
-{`Without it, Angular could enter an infinite loop:
+          <CodeBlock
+            comment="// Why the check exists"
+            code={`Without it, Angular could enter an infinite loop:
 
 CD Run 1: value = A, update DOM
 Lifecycle hook: value = B
@@ -270,8 +285,7 @@ CD Run 2: value = B, update DOM
 Lifecycle hook: value = C
 CD Run 3: value = C, update DOM
 ... infinite loop ...`}
-            </pre>
-          </div>
+          />
           <div className="bg-gray-900 p-6 rounded-lg">
             <h4 className="font-semibold text-yellow-400 mb-2">The Rule</h4>
             <p className="text-gray-300">
@@ -331,10 +345,9 @@ CD Run 3: value = C, update DOM
       subtitle: "How Dirtiness Bubbles Up",
       content: (
         <div className="space-y-6">
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-sm overflow-x-auto">
-            <div className="text-green-400 text-lg mb-3">// mark_view_dirty.ts</div>
-            <pre className="text-white">
-{`export function markViewDirty(lView: LView, source: NotificationSource) {
+          <CodeBlock
+            comment="// mark_view_dirty.ts"
+            code={`export function markViewDirty(lView: LView, source: NotificationSource) {
   // v18+: Notify the scheduler
   lView[ENVIRONMENT].changeDetectionScheduler?.notify(source);
   
@@ -348,8 +361,7 @@ CD Run 3: value = C, update DOM
     lView = parent;
   }
 }`}
-            </pre>
-          </div>
+          />
           <div className="bg-blue-900 bg-opacity-30 border border-blue-500 p-6 rounded-lg">
             <h4 className="font-semibold text-blue-400 mb-3 text-xl">Why Bubble Up?</h4>
             <p className="text-lg text-gray-300">
@@ -365,10 +377,9 @@ CD Run 3: value = C, update DOM
       subtitle: "How ApplicationRef.tick Actually Works",
       content: (
         <div className="space-y-6">
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-xs overflow-x-auto">
-            <div className="text-green-400">// Simplified ApplicationRef.synchronize</div>
-            <pre className="mt-2 text-white">
-{`private synchronize() {
+          <CodeBlock
+            comment="// Simplified ApplicationRef.synchronize"
+            code={`private synchronize() {
   let runs = 0;
   while (
     this.dirtyFlags !== ApplicationRefDirtyFlags.None &&
@@ -381,8 +392,7 @@ CD Run 3: value = C, update DOM
     throw 'Infinite change detection';
   }
 }`}
-            </pre>
-          </div>
+          />
           <div className="bg-gray-900 p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-purple-400">The Loop Flow</h3>
             <div className="space-y-2 text-sm">
@@ -421,15 +431,14 @@ CD Run 3: value = C, update DOM
           </div>
           <div className="bg-gray-900 p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-blue-400">Dependency Tracking</h3>
-            <div className="bg-gray-800 p-4 rounded font-mono text-xs overflow-x-auto">
-              <pre className="text-white">
-{`const counter = signal(0);
+            <CodeBlock 
+              language="typescript"
+              code={`const counter = signal(0);
 const isEven = computed(() => counter() % 2 === 0);
 
 // Template reads isEven creates reactive consumer
 // consumer tracks: isEven to counter`}
-              </pre>
-            </div>
+            />
           </div>
           <div className="bg-gray-900 p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-purple-400">Active Consumer Pattern</h3>
@@ -459,17 +468,16 @@ const isEven = computed(() => counter() % 2 === 0);
               When a signal changes, it does not mark the component as Dirty. 
               Instead, it marks it as RefreshView and ancestors as HasChildViewsToRefresh.
             </p>
-            <div className="bg-gray-800 p-4 rounded text-xs overflow-x-auto">
-              <pre className="text-white">
-{`// Traditional markViewDirty
+            <CodeBlock 
+              language="typescript"
+              code={`// Traditional markViewDirty
 Parent: Dirty | RefreshView
 Child: Dirty | RefreshView
 
 // Signal-based marking
 Parent: HasChildViewsToRefresh
 Child: RefreshView (reactive consumer dirty)`}
-              </pre>
-            </div>
+            />
           </div>
           <div className="bg-blue-900 bg-opacity-30 border border-blue-500 p-4 rounded-lg">
             <h4 className="font-semibold text-blue-400 mb-2">Why This Matters</h4>
@@ -487,18 +495,16 @@ Child: RefreshView (reactive consumer dirty)`}
       subtitle: "The Final Form",
       content: (
         <div className="space-y-6">
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-xs overflow-x-auto">
-            <div className="text-green-400">// provideZonelessChangeDetection</div>
-            <pre className="mt-2 text-white">
-{`export function provideZonelessChangeDetection() {
+          <CodeBlock 
+            comment="// provideZonelessChangeDetection"
+            code={`export function provideZonelessChangeDetection() {
   return makeEnvironmentProviders([
     { provide: ChangeDetectionScheduler,
       useExisting: ChangeDetectionSchedulerImpl },
     { provide: NgZone, useClass: NoopNgZone }
   ]);
 }`}
-            </pre>
-          </div>
+          />
           <div className="bg-gray-900 p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-purple-400">What Triggers CD in Zoneless?</h3>
             <div className="space-y-2 text-sm">
@@ -531,9 +537,9 @@ Child: RefreshView (reactive consumer dirty)`}
           </div>
           <div className="bg-gray-900 p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-green-400">The Problem It Solves</h3>
-            <div className="bg-gray-800 p-4 rounded font-mono text-xs overflow-x-auto">
-              <pre className="text-white">
-{`// Before v18: This would NOT trigger CD
+            <CodeBlock 
+              language="typescript"
+              code={`// Before v18: This would NOT trigger CD
 zone.runOutsideAngular(() => {
   setTimeout(() => {
     mySignal.set(newValue); // Signal updated but no CD!
@@ -541,8 +547,7 @@ zone.runOutsideAngular(() => {
 });
 
 // v18+: Signal.set now schedules CD regardless of zone context`}
-              </pre>
-            </div>
+            />
           </div>
           <div className="bg-gray-900 p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-blue-400">shouldScheduleTick Logic</h3>
@@ -581,10 +586,9 @@ zone.runOutsideAngular(() => {
               A method on ChangeDetectorRef that runs change detection for a specific component and its children only
             </p>
           </div>
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-xs overflow-x-auto">
-            <div className="text-green-400">// ViewRef implementation</div>
-            <pre className="mt-2 text-white">
-{`export class ViewRef implements ChangeDetectorRef {
+          <CodeBlock 
+            comment="// ViewRef implementation"
+            code={`export class ViewRef implements ChangeDetectorRef {
   constructor(public _lView: LView) {}
   
   detectChanges() {
@@ -598,8 +602,7 @@ export function detectChangesInternal(tView, lView, context) {
     refreshView(tView, lView, ...);
   } catch (error) { ... }
 }`}
-            </pre>
-          </div>
+          />
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-green-900 bg-opacity-30 border border-green-500 p-4 rounded-lg">
               <h4 className="font-semibold text-green-400 mb-2">Use Cases</h4>
@@ -633,10 +636,9 @@ export function detectChangesInternal(tView, lView, context) {
               It only marks the component and ancestors as dirty. CD must be scheduled separately.
             </p>
           </div>
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-xs overflow-x-auto">
-            <div className="text-green-400">// Typical usage with OnPush</div>
-            <pre className="mt-2 text-white">
-{`@Component({
+          <CodeBlock 
+            comment="// Typical usage with OnPush"
+            code={`@Component({
   selector: 'my-component',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -651,8 +653,7 @@ export class MyComponent {
     });
   }
 }`}
-            </pre>
-          </div>
+          />
           <div className="bg-gray-900 p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-purple-400">What markForCheck Actually Does</h3>
             <div className="space-y-2 text-sm">
@@ -670,10 +671,9 @@ export class MyComponent {
       subtitle: "Automatic markForCheck on Observable Emissions",
       content: (
         <div className="space-y-6">
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-xs overflow-x-auto">
-            <div className="text-green-400">// AsyncPipe implementation (simplified)</div>
-            <pre className="mt-2 text-white">
-{`export class AsyncPipe {
+          <CodeBlock 
+            comment="// AsyncPipe implementation (simplified)"
+            code={`export class AsyncPipe {
   private _latestValue: any = null;
   private _subscription: Subscription | null = null;
   
@@ -689,8 +689,7 @@ export class MyComponent {
     return this._latestValue;
   }
 }`}
-            </pre>
-          </div>
+          />
           <div className="bg-blue-900 bg-opacity-30 border border-blue-500 p-4 rounded-lg">
             <h4 className="font-semibold text-blue-400 mb-2">Why AsyncPipe Works with OnPush</h4>
             <p className="text-sm text-gray-300">
@@ -720,10 +719,9 @@ export class MyComponent {
               breaking Angular's unidirectional data flow assumption
             </p>
           </div>
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-xs overflow-x-auto">
-            <div className="text-red-400">// This will throw NG100</div>
-            <pre className="mt-2 text-white">
-{`// Parent
+          <CodeBlock 
+            comment="// This will throw NG100"
+            code={`// Parent
 @Component({
   template: \`<child [data]="parentData"></child>
               <div>{{ parentData }}</div>\`
@@ -744,8 +742,7 @@ export class Child implements AfterViewInit {
     // NG100: parentData changed after being checked!
   }
 }`}
-            </pre>
-          </div>
+          />
           <div className="bg-gray-900 p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-yellow-400">Why This Happens</h3>
             <div className="space-y-2 text-sm text-gray-300">
@@ -767,30 +764,28 @@ export class Child implements AfterViewInit {
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-gray-900 p-4 rounded-lg">
               <h4 className="font-semibold text-green-400 mb-3">Solution 1: setTimeout</h4>
-              <div className="bg-gray-800 p-3 rounded font-mono text-xs overflow-x-auto">
-                <pre className="text-white">
-{`ngAfterViewInit() {
+              <CodeBlock 
+                language="typescript"
+                code={`ngAfterViewInit() {
   setTimeout(() => {
     this.update.emit('changed');
   }, 0);
 }`}
-                </pre>
-              </div>
+              />
               <p className="text-xs text-gray-400 mt-2">
                 Defers update to next CD cycle via macro task
               </p>
             </div>
             <div className="bg-gray-900 p-4 rounded-lg">
               <h4 className="font-semibold text-blue-400 mb-3">Solution 2: Promise</h4>
-              <div className="bg-gray-800 p-3 rounded font-mono text-xs overflow-x-auto">
-                <pre className="text-white">
-{`ngAfterViewInit() {
+              <CodeBlock 
+                language="typescript"
+                code={`ngAfterViewInit() {
   Promise.resolve().then(() => {
     this.update.emit('changed');
   });
 }`}
-                </pre>
-              </div>
+              />
               <p className="text-xs text-gray-400 mt-2">
                 Defers update via microtask queue
               </p>
@@ -799,27 +794,25 @@ export class Child implements AfterViewInit {
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-gray-900 p-4 rounded-lg">
               <h4 className="font-semibold text-purple-400 mb-3">Solution 3: ChangeDetectorRef</h4>
-              <div className="bg-gray-800 p-3 rounded font-mono text-xs overflow-x-auto">
-                <pre className="text-white">
-{`ngAfterViewInit() {
+              <CodeBlock 
+                language="typescript"
+                code={`ngAfterViewInit() {
   this.update.emit('changed');
   this.cdr.detectChanges();
 }`}
-                </pre>
-              </div>
+              />
               <p className="text-xs text-gray-400 mt-2">
                 Manually run CD for parent subtree
               </p>
             </div>
             <div className="bg-gray-900 p-4 rounded-lg">
               <h4 className="font-semibold text-yellow-400 mb-3">Solution 4: Redesign</h4>
-              <div className="bg-gray-800 p-3 rounded font-mono text-xs overflow-x-auto">
-                <pre className="text-white">
-{`// Move state up or
+              <CodeBlock 
+                language="typescript"
+                code={`// Move state up or
 // use service for
 // shared state`}
-                </pre>
-              </div>
+              />
               <p className="text-xs text-gray-400 mt-2">
                 Respect unidirectional flow by design
               </p>
@@ -844,10 +837,9 @@ export class Child implements AfterViewInit {
               Signals are reactive values that track their consumers and notify them automatically when changed
             </p>
           </div>
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-xs overflow-x-auto">
-            <div className="text-green-400">// Signal basics</div>
-            <pre className="mt-2 text-white">
-{`// Create a signal
+          <CodeBlock 
+            comment="// Signal basics"
+            code={`// Create a signal
 const count = signal(0);
 
 // Read a signal (tracks dependency)
@@ -864,8 +856,7 @@ const doubled = computed(() => count() * 2);
 effect(() => {
   console.log('Count is:', count());
 });`}
-            </pre>
-          </div>
+          />
           <div className="bg-gray-900 p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-purple-400">Key Properties</h3>
             <div className="grid grid-cols-2 gap-3 text-sm">
@@ -897,21 +888,19 @@ effect(() => {
         <div className="space-y-6">
           <div className="bg-gray-900 p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-blue-400">Reactive Node Structure</h3>
-            <div className="bg-gray-800 p-4 rounded font-mono text-xs overflow-x-auto">
-              <pre className="text-white">
-{`interface ReactiveNode {
+            <CodeBlock 
+              language="typescript"
+              code={`interface ReactiveNode {
   producerNode: ReactiveNode[];      // My dependencies
   liveConsumerNode: ReactiveNode[];  // Who depends on me
   dirty: boolean;                    // Need recomputation?
   consumerAllowSignalWrites: boolean;
 }`}
-              </pre>
-            </div>
+            />
           </div>
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-xs overflow-x-auto">
-            <div className="text-green-400">// Tracking example</div>
-            <pre className="mt-2 text-white">
-{`const firstName = signal('John');
+          <CodeBlock 
+            comment="// Tracking example"
+            code={`const firstName = signal('John');
 const lastName = signal('Doe');
 const fullName = computed(() => \`\${firstName()} \${lastName()}\`);
 
@@ -924,8 +913,7 @@ const fullName = computed(() => \`\${firstName()} \${lastName()}\`);
 firstName.liveConsumerNode = [fullName];
 lastName.liveConsumerNode = [fullName];
 fullName.producerNode = [firstName, lastName];`}
-            </pre>
-          </div>
+          />
           <div className="bg-gray-900 p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-purple-400">Active Consumer Pattern</h3>
             <div className="space-y-2 text-sm text-gray-300">
@@ -945,10 +933,9 @@ fullName.producerNode = [firstName, lastName];`}
       subtitle: "How Signals Schedule Change Detection",
       content: (
         <div className="space-y-6">
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-xs overflow-x-auto">
-            <div className="text-green-400">// signal_impl.ts</div>
-            <pre className="mt-2 text-white">
-{`export function signalSetFn(node: SignalNode, newValue: T) {
+          <CodeBlock 
+            comment="// signal_impl.ts"
+            code={`export function signalSetFn(node: SignalNode, newValue: T) {
   if (!node.equal(node.value, newValue)) {
     node.value = newValue;
     node.version++; // Increment version
@@ -969,12 +956,10 @@ function signalValueChanged(node: ReactiveNode) {
   // If any consumer is a component, schedule CD
   producerNotifyConsumers(node);
 }`}
-            </pre>
-          </div>
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-xs overflow-x-auto">
-            <div className="text-green-400">// mark_view_dirty_from_signal.ts</div>
-            <pre className="mt-2 text-white">
-{`export function markAncestorsForTraversal(lView: LView) {
+          />
+          <CodeBlock 
+            comment="// mark_view_dirty_from_signal.ts"
+            code={`export function markAncestorsForTraversal(lView: LView) {
   let parent = lView;
   
   while (parent !== null) {
@@ -994,8 +979,7 @@ function signalValueChanged(node: ReactiveNode) {
     NotificationSource.SetInput
   );
 }`}
-            </pre>
-          </div>
+          />
         </div>
       )
     },
@@ -1024,10 +1008,9 @@ function signalValueChanged(node: ReactiveNode) {
               </div>
             </div>
           </div>
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-xs overflow-x-auto">
-            <div className="text-green-400">// detectChangesInView logic</div>
-            <pre className="mt-2 text-white">
-{`function detectChangesInView(lView: LView, mode: ChangeDetectionMode) {
+          <CodeBlock 
+            comment="// detectChangesInView logic"
+            code={`function detectChangesInView(lView: LView, mode: ChangeDetectionMode) {
   const flags = lView[FLAGS];
   
   let shouldRefreshView = !!(
@@ -1050,8 +1033,7 @@ function signalValueChanged(node: ReactiveNode) {
     detectChangesInChildViews(lView, mode);
   }
 }`}
-            </pre>
-          </div>
+          />
         </div>
       )
     },
@@ -1066,10 +1048,9 @@ function signalValueChanged(node: ReactiveNode) {
               Signals enable controlled bi-directional flow within the synchronization loop
             </p>
           </div>
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-xs overflow-x-auto">
-            <div className="text-green-400">// With Signals - No NG100!</div>
-            <pre className="mt-2 text-white">
-{`// Parent
+          <CodeBlock 
+            comment="// With Signals - No NG100!"
+            code={`// Parent
 @Component({
   template: \`<child [data]="parentData()"></child>
               <div>{{ parentData() }}</div>\`
@@ -1090,8 +1071,7 @@ export class Child implements AfterViewInit {
     // No NG100 because signals mark dirty & schedule re-check
   }
 }`}
-            </pre>
-          </div>
+          />
           <div className="bg-gray-900 p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-blue-400">Why This Works</h3>
             <div className="space-y-2 text-sm text-gray-300">
@@ -1112,10 +1092,9 @@ export class Child implements AfterViewInit {
       subtitle: "Allowing Controlled Re-checks",
       content: (
         <div className="space-y-6">
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-xs overflow-x-auto">
-            <div className="text-green-400">// ApplicationRef.synchronize (v18+)</div>
-            <pre className="mt-2 text-white">
-{`private synchronize() {
+          <CodeBlock 
+            comment="// ApplicationRef.synchronize (v18+)"
+            code={`private synchronize() {
   const MAXIMUM_REFRESH_RERUNS = 10;
   let runs = 0;
   
@@ -1152,8 +1131,7 @@ private synchronizeOnce() {
     // ...
   }
 }`}
-            </pre>
-          </div>
+          />
           <div className="bg-green-900 bg-opacity-30 border border-green-500 p-4 rounded-lg">
             <h4 className="font-semibold text-green-400 mb-2">The Key Difference</h4>
             <p className="text-sm text-gray-300">
@@ -1169,10 +1147,9 @@ private synchronizeOnce() {
       subtitle: "The Final Piece of the Reactive Puzzle",
       content: (
         <div className="space-y-6">
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-xs overflow-x-auto">
-            <div className="text-green-400">// effect() API</div>
-            <pre className="mt-2 text-white">
-{`@Component({...})
+          <CodeBlock 
+            comment="// effect() API"
+            code={`@Component({...})
 export class MyComponent {
   count = signal(0);
   
@@ -1187,8 +1164,7 @@ export class MyComponent {
     });
   }
 }`}
-            </pre>
-          </div>
+          />
           <div className="bg-gray-900 p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-purple-400">Effect Scheduling</h3>
             <div className="space-y-2 text-sm text-gray-300">
@@ -1216,18 +1192,16 @@ export class MyComponent {
       subtitle: "What Changes, What Stays",
       content: (
         <div className="space-y-6">
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-xs overflow-x-auto">
-            <div className="text-green-400">// main.ts</div>
-            <pre className="mt-2 text-white">
-{`import { provideZonelessChangeDetection } from '@angular/core';
+          <CodeBlock 
+            comment="// main.ts"
+            code={`import { provideZonelessChangeDetection } from '@angular/core';
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideZonelessChangeDetection()
   ]
 });`}
-            </pre>
-          </div>
+          />
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-green-900 bg-opacity-30 border border-green-500 p-4 rounded-lg">
               <h4 className="font-semibold text-green-400 mb-3">Still Works ✓</h4>
@@ -1266,10 +1240,9 @@ bootstrapApplication(AppComponent, {
       subtitle: "Hybrid Mode - Best of Both Worlds (v18+)",
       content: (
         <div className="space-y-6">
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-xs overflow-x-auto">
-            <div className="text-green-400">// ChangeDetectionSchedulerImpl</div>
-            <pre className="mt-2 text-white">
-{`private shouldScheduleTick(): boolean {
+          <CodeBlock 
+            comment="// ChangeDetectionSchedulerImpl"
+            code={`private shouldScheduleTick(): boolean {
   // Mode 1: Pure Zoneless
   if (this.zonelessEnabled) {
     return true; // Always schedule via scheduler
@@ -1294,8 +1267,7 @@ bootstrapApplication(AppComponent, {
   // Outside Zone: scheduler handles it (hybrid mode!)
   return true;
 }`}
-            </pre>
-          </div>
+          />
           <div className="bg-green-900 bg-opacity-30 border border-green-500 p-4 rounded-lg">
             <h4 className="font-semibold text-green-400 mb-2">Hybrid Mode Magic</h4>
             <p className="text-sm text-gray-300">
@@ -1313,14 +1285,13 @@ bootstrapApplication(AppComponent, {
         <div className="space-y-6">
           <div className="bg-gray-900 p-6 rounded-lg">
             <h3 className="text-2xl font-semibold mb-4 text-blue-400">Two Strategies</h3>
-            <div className="bg-gray-800 p-4 rounded font-mono text-base">
-              <pre className="text-white">
-{`export enum ChangeDetectionStrategy {
+            <CodeBlock 
+              language="typescript"
+              code={`export enum ChangeDetectionStrategy {
   Default,    // CheckAlways
   OnPush      // CheckOnce - skips unless marked dirty
 }`}
-              </pre>
-            </div>
+            />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-blue-900 bg-opacity-30 p-4 rounded-lg">
@@ -1408,10 +1379,9 @@ bootstrapApplication(AppComponent, {
       subtitle: "Determining What Gets Checked",
       content: (
         <div className="space-y-6">
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-xs overflow-x-auto">
-            <div className="text-green-400 text-base mb-3">// detectChangesInView function</div>
-            <pre className="text-white text-xs">
-{`function detectChangesInView(lView: LView, mode: ChangeDetectionMode) {
+          <CodeBlock 
+            comment="// detectChangesInView function"
+            code={`function detectChangesInView(lView: LView, mode: ChangeDetectionMode) {
   const flags = lView[FLAGS];
   
   // Global mode: Check if CheckAlways or Dirty
@@ -1437,8 +1407,7 @@ bootstrapApplication(AppComponent, {
     detectChangesInChildViews(lView, mode); // Traverse children
   }
 }`}
-            </pre>
-          </div>
+          />
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-blue-900 bg-opacity-30 p-4 rounded-lg">
               <h4 className="font-semibold text-blue-400 mb-2">Global Mode</h4>
@@ -1457,10 +1426,9 @@ bootstrapApplication(AppComponent, {
       subtitle: "How Dirtiness Propagates Up the Tree",
       content: (
         <div className="space-y-6">
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-sm overflow-x-auto">
-            <div className="text-green-400 text-lg mb-3">// mark_view_dirty.ts</div>
-            <pre className="text-white">
-{`export function markViewDirty(lView: LView, source: NotificationSource) {
+          <CodeBlock 
+            comment="// mark_view_dirty.ts"
+            code={`export function markViewDirty(lView: LView, source: NotificationSource) {
   // v18+: Notify the scheduler
   lView[ENVIRONMENT].changeDetectionScheduler?.notify(source);
   
@@ -1474,8 +1442,7 @@ bootstrapApplication(AppComponent, {
     lView = parent;
   }
 }`}
-            </pre>
-          </div>
+          />
           <div className="bg-blue-900 bg-opacity-30 border border-blue-500 p-6 rounded-lg">
             <h4 className="font-semibold text-blue-400 mb-3 text-xl">Why Bubble Up?</h4>
             <p className="text-lg text-gray-300">
@@ -1523,10 +1490,9 @@ bootstrapApplication(AppComponent, {
               </ul>
             </div>
           </div>
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-xs overflow-x-auto">
-            <div className="text-green-400 text-base mb-3">// Common OnPush pattern</div>
-            <pre className="text-white">
-{`@Component({
+          <CodeBlock 
+            comment="// Common OnPush pattern"
+            code={`@Component({
   selector: 'user-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: \`
@@ -1548,8 +1514,7 @@ export class UserCard {
     });
   }
 }`}
-            </pre>
-          </div>
+          />
         </div>
       )
     },
@@ -1564,10 +1529,9 @@ export class UserCard {
               Signals are reactive values that automatically track their consumers and notify them when changed
             </p>
           </div>
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-sm overflow-x-auto">
-            <div className="text-green-400 text-lg mb-3">// Signal basics</div>
-            <pre className="text-white">
-{`// Create a signal
+          <CodeBlock 
+            comment="// Signal basics"
+            code={`// Create a signal
 const count = signal(0);
 
 // Read a signal (tracks dependency)
@@ -1584,8 +1548,7 @@ const doubled = computed(() => count() * 2);
 effect(() => {
   console.log('Count is:', count());
 });`}
-            </pre>
-          </div>
+          />
           <div className="grid grid-cols-2 gap-3">
             <div className="border-l-4 border-green-500 pl-3 bg-gray-900 p-3">
               <strong className="text-green-400">Automatic Tracking</strong>
@@ -1612,21 +1575,18 @@ effect(() => {
       subtitle: "Producer-Consumer Dependency Tracking",
       content: (
         <div className="space-y-6">
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-xs overflow-x-auto">
-            <div className="text-green-400 text-base mb-3">// ReactiveNode structure</div>
-            <pre className="text-white">
-{`interface ReactiveNode {
+          <CodeBlock 
+            comment="// ReactiveNode structure"
+            code={`interface ReactiveNode {
   producerNode: ReactiveNode[];      // My dependencies
   liveConsumerNode: ReactiveNode[];  // Who depends on me
   dirty: boolean;                    // Need recomputation?
   consumerAllowSignalWrites: boolean;
 }`}
-            </pre>
-          </div>
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-xs overflow-x-auto">
-            <div className="text-green-400 text-base mb-3">// Dependency graph example</div>
-            <pre className="text-white">
-{`const firstName = signal('John');
+          />
+          <CodeBlock 
+            comment="// Dependency graph example"
+            code={`const firstName = signal('John');
 const lastName = signal('Doe');
 const fullName = computed(() => \`\${firstName()} \${lastName()}\`);
 
@@ -1639,8 +1599,7 @@ const fullName = computed(() => \`\${firstName()} \${lastName()}\`);
 firstName.liveConsumerNode = [fullName];
 lastName.liveConsumerNode = [fullName];
 fullName.producerNode = [firstName, lastName];`}
-            </pre>
-          </div>
+          />
           <div className="bg-purple-900 bg-opacity-30 border border-purple-500 p-4 rounded-lg">
             <h4 className="font-semibold text-purple-400 mb-2">Active Consumer Pattern</h4>
             <div className="space-y-1 text-sm text-gray-300">
@@ -1660,10 +1619,9 @@ fullName.producerNode = [firstName, lastName];`}
       subtitle: "From Signal Update to View Refresh",
       content: (
         <div className="space-y-6">
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-xs overflow-x-auto">
-            <div className="text-green-400 text-base mb-3">// signal_impl.ts</div>
-            <pre className="text-white">
-{`export function signalSetFn(node: SignalNode, newValue: T) {
+          <CodeBlock 
+            comment="// signal_impl.ts"
+            code={`export function signalSetFn(node: SignalNode, newValue: T) {
   if (!node.equal(node.value, newValue)) {
     node.value = newValue;
     node.version++; // Increment version
@@ -1684,12 +1642,10 @@ function signalValueChanged(node: ReactiveNode) {
   // If any consumer is a component, schedule CD
   producerNotifyConsumers(node);
 }`}
-            </pre>
-          </div>
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-xs overflow-x-auto">
-            <div className="text-green-400 text-base mb-3">// markAncestorsForTraversal</div>
-            <pre className="text-white">
-{`export function markAncestorsForTraversal(lView: LView) {
+          />
+          <CodeBlock 
+            comment="// markAncestorsForTraversal"
+            code={`export function markAncestorsForTraversal(lView: LView) {
   let parent = lView;
   
   while (parent !== null) {
@@ -1708,8 +1664,7 @@ function signalValueChanged(node: ReactiveNode) {
     NotificationSource.SetInput
   );
 }`}
-            </pre>
-          </div>
+          />
         </div>
       )
     },
@@ -1764,10 +1719,9 @@ function signalValueChanged(node: ReactiveNode) {
               Signals enable controlled bi-directional flow within the synchronization loop
             </p>
           </div>
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-xs overflow-x-auto">
-            <div className="text-green-400 text-base mb-3">// With Signals - No NG100!</div>
-            <pre className="text-white">
-{`// Parent
+          <CodeBlock 
+            comment="// With Signals - No NG100!"
+            code={`// Parent
 @Component({
   template: \`<child [data]="parentData()"></child>
               <div>{{ parentData() }}</div>\`
@@ -1787,8 +1741,7 @@ export class Child implements AfterViewInit {
     // Signals mark dirty & schedule re-check
   }
 }`}
-            </pre>
-          </div>
+          />
           <div className="bg-gray-900 p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-blue-400">Why This Works</h3>
             <div className="space-y-2 text-sm text-gray-300">
@@ -1809,10 +1762,9 @@ export class Child implements AfterViewInit {
       subtitle: "Pure Reactive Synchronization",
       content: (
         <div className="space-y-6">
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-sm overflow-x-auto">
-            <div className="text-green-400 text-lg mb-3">// provideZonelessChangeDetection</div>
-            <pre className="text-white">
-{`export function provideZonelessChangeDetection() {
+          <CodeBlock 
+            comment="// provideZonelessChangeDetection"
+            code={`export function provideZonelessChangeDetection() {
   return makeEnvironmentProviders([
     { provide: ChangeDetectionScheduler,
       useExisting: ChangeDetectionSchedulerImpl },
@@ -1824,8 +1776,7 @@ export class Child implements AfterViewInit {
 bootstrapApplication(AppComponent, {
   providers: [provideZonelessChangeDetection()]
 });`}
-            </pre>
-          </div>
+          />
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-green-900 bg-opacity-30 border border-green-500 p-4 rounded-lg">
               <h4 className="font-semibold text-green-400 mb-3">✓ Still Works</h4>
@@ -1868,9 +1819,9 @@ bootstrapApplication(AppComponent, {
           </div>
           <div className="bg-gray-900 p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-green-400">The Problem It Solves</h3>
-            <div className="bg-gray-800 p-4 rounded font-mono text-xs overflow-x-auto">
-              <pre className="text-white">
-{`// Before v18: Signal.set outside zone = NO CD!
+            <CodeBlock 
+              language="typescript"
+              code={`// Before v18: Signal.set outside zone = NO CD!
 zone.runOutsideAngular(() => {
   setTimeout(() => {
     mySignal.set(newValue); // Updated but no CD!
@@ -1883,8 +1834,7 @@ zone.runOutsideAngular(() => {
     mySignal.set(newValue); // Now works!
   }, 1000);
 });`}
-              </pre>
-            </div>
+            />
           </div>
           <div className="bg-gray-900 p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-blue-400">shouldScheduleTick Logic</h3>
