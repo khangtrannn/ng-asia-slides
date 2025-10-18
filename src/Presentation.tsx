@@ -9,34 +9,34 @@ const Presentation = () => {
       title: "Angular Change Detection",
       subtitle: "From Zone.js to Signals: The Complete Architecture",
       content: (
-        <div className="space-y-6">
-          <div className="text-6xl font-bold bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent">
+        <div className="space-y-8 flex flex-col justify-center h-full">
+          <div className="text-7xl font-bold bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent text-center">
             UI = fn(state)
           </div>
-          <div className="space-y-4 text-lg">
-            <div className="flex items-center gap-3">
-              <Zap className="text-yellow-500" size={24} />
+          <div className="space-y-6 text-2xl">
+            <div className="flex items-center gap-4">
+              <Zap className="text-yellow-500" size={32} />
               <span>React: vDOM = fn(state)</span>
             </div>
-            <div className="flex items-center gap-3">
-              <Zap className="text-red-500" size={24} />
+            <div className="flex items-center gap-4">
+              <Zap className="text-red-500" size={32} />
               <span>Angular: deltaUI = fn(deltaState)</span>
             </div>
           </div>
-          <p className="text-xl text-gray-400 mt-8">
+          <p className="text-2xl text-gray-400 text-center mt-12">
             The evolution from dirty checking to reactive synchronization
           </p>
         </div>
       )
     },
     {
-      title: "Act I: Web Development 101",
+      title: "Web Development 101",
       subtitle: "The Manual Era",
       content: (
-        <div className="space-y-6">
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-sm overflow-x-auto">
-            <div className="text-green-400">// Plain JavaScript - Manual CD</div>
-            <pre className="mt-2 text-white">
+        <div className="space-y-8">
+          <div className="bg-gray-900 p-6 rounded-lg font-mono text-base overflow-x-auto">
+            <div className="text-green-400 text-lg mb-3">// Plain JavaScript - Manual CD</div>
+            <pre className="text-white">
 {`let textContent = 'Initial';
 
 function render() {
@@ -50,37 +50,37 @@ function changeDetection() {
 }`}
             </pre>
           </div>
-          <div className="text-yellow-400 flex items-start gap-3">
-            <AlertTriangle className="mt-1 flex-shrink-0" size={20} />
+          <div className="text-yellow-400 flex items-start gap-4 text-xl">
+            <AlertTriangle className="mt-1 flex-shrink-0" size={28} />
             <div>
               <p className="font-semibold">The setTimeout Problem</p>
-              <p className="text-gray-400">Asynchronous changes do not trigger detection automatically</p>
+              <p className="text-gray-400 text-lg">Asynchronous changes do not trigger detection automatically</p>
             </div>
           </div>
         </div>
       )
     },
     {
-      title: "Act II: Component Views and Bindings",
+      title: "Component Views and Bindings",
       subtitle: "The Foundation of Angular Architecture",
       content: (
-        <div className="space-y-6">
+        <div className="space-y-8">
           <div className="bg-gray-900 p-6 rounded-lg">
-            <h3 className="text-xl font-semibold mb-4 text-blue-400">Two Building Blocks</h3>
-            <div className="space-y-4">
-              <div className="border-l-4 border-green-500 pl-4">
-                <p className="font-semibold text-green-400">Component View (LView)</p>
-                <p className="text-sm text-gray-400">Container for DOM references, component instance, and oldValues array</p>
+            <h3 className="text-2xl font-semibold mb-6 text-blue-400">Two Building Blocks</h3>
+            <div className="space-y-6">
+              <div className="border-l-4 border-green-500 pl-6">
+                <p className="font-semibold text-green-400 text-xl">Component View (LView)</p>
+                <p className="text-lg text-gray-400">Container for DOM references, component instance, and oldValues array</p>
               </div>
-              <div className="border-l-4 border-purple-500 pl-4">
-                <p className="font-semibold text-purple-400">Associated Bindings</p>
-                <p className="text-sm text-gray-400">Maps component properties to DOM element properties</p>
+              <div className="border-l-4 border-purple-500 pl-6">
+                <p className="font-semibold text-purple-400 text-xl">Associated Bindings</p>
+                <p className="text-lg text-gray-400">Maps component properties to DOM element properties</p>
               </div>
             </div>
           </div>
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-sm overflow-x-auto">
-            <div className="text-green-400">// Binding Structure</div>
-            <pre className="mt-2 text-white">
+          <div className="bg-gray-900 p-6 rounded-lg font-mono text-base overflow-x-auto">
+            <div className="text-green-400 text-lg mb-3">// Binding Structure</div>
+            <pre className="text-white">
 {`binding = {
   name: 'textContent',
   expression: 'time | date',
@@ -92,24 +92,38 @@ function changeDetection() {
       )
     },
     {
-      title: "Act III: The Ivy Instructions",
+      title: "The Ivy Instructions - Part 1",
       subtitle: "How Templates Become Change Detection Code",
       content: (
-        <div className="space-y-6">
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-xs overflow-x-auto">
-            <div className="text-green-400">// Template to compiled code</div>
-            <pre className="mt-2 text-white">
-{`// Template: [className]="'fa-star ' + (rating > 0 ? 'fas' : 'far')"
+        <div className="space-y-8">
+          <div className="bg-gray-900 p-6 rounded-lg font-mono text-base overflow-x-auto">
+            <div className="text-green-400 text-lg mb-3">// Template to compiled code</div>
+            <pre className="text-white">
+{`// Template: 
+[className]="'fa-star ' + (rating > 0 ? 'fas' : 'far')"
 
 // Compiled to:
 if (changeDetectionPhase) {
-  property("className", "fa-star " + (ctx.rating > 0 ? "fas" : "far"));
+  property("className", 
+    "fa-star " + (ctx.rating > 0 ? "fas" : "far")
+  );
 }`}
             </pre>
           </div>
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-xs overflow-x-auto">
-            <div className="text-green-400">// property implementation</div>
-            <pre className="mt-2 text-white">
+          <p className="text-gray-300 text-2xl bg-gray-800 p-6 rounded-lg">
+            This is <strong className="text-yellow-400">dirty checking</strong> at its core: compare oldValue to update if different
+          </p>
+        </div>
+      )
+    },
+    {
+      title: "The Ivy Instructions - Part 2",
+      subtitle: "The property() Implementation",
+      content: (
+        <div className="space-y-6">
+          <div className="bg-gray-900 p-6 rounded-lg font-mono text-base overflow-x-auto">
+            <div className="text-green-400 text-lg mb-3">// property implementation</div>
+            <pre className="text-white">
 {`export function property(propName, value) {
   const lView = getLView();
   const bindingIndex = nextBindingIndex();
@@ -122,42 +136,51 @@ if (changeDetectionPhase) {
 }`}
             </pre>
           </div>
-          <p className="text-gray-400 italic">This is dirty checking at its core: compare oldValue to update if different</p>
+          <div className="space-y-4 text-lg text-gray-300 bg-gray-800 p-6 rounded-lg">
+            <p><strong className="text-blue-400 text-xl">Key Steps:</strong></p>
+            <ol className="list-decimal list-inside space-y-3 ml-4">
+              <li>Get the current LView (component data)</li>
+              <li>Get the binding index for this property</li>
+              <li>Check if value changed (dirty check)</li>
+              <li>If changed, update DOM via elementPropertyInternal</li>
+              <li>Return self for chaining</li>
+            </ol>
+          </div>
         </div>
       )
     },
     {
-      title: "Act IV: Zone.js - The Notification System",
+      title: "Zone.js - The Notification System",
       subtitle: "Intercepting Async Operations",
       content: (
         <div className="space-y-6">
           <div className="bg-gradient-to-r from-blue-900 to-purple-900 p-6 rounded-lg">
-            <h3 className="text-xl font-semibold mb-4">Zone.js is not Change Detection</h3>
-            <p className="text-gray-300">Zone.js is a <strong>notifier</strong>, not the detector</p>
+            <h3 className="text-2xl font-semibold mb-4">Zone.js is not Change Detection</h3>
+            <p className="text-gray-300 text-xl">Zone.js is a <strong>notifier</strong>, not the detector</p>
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="bg-gray-900 p-4 rounded-lg">
-              <h4 className="font-semibold text-green-400 mb-2">What Zone.js Does</h4>
-              <ul className="text-sm space-y-1 text-gray-300">
-                <li>Patches async APIs</li>
-                <li>Tracks microtask queue</li>
-                <li>Emits onMicrotaskEmpty</li>
-                <li>Notifies ApplicationRef</li>
+          <div className="grid grid-cols-2 gap-6">
+            <div className="bg-gray-900 p-6 rounded-lg">
+              <h4 className="font-semibold text-green-400 mb-4 text-xl">What Zone.js Does</h4>
+              <ul className="text-lg space-y-2 text-gray-300">
+                <li>• Patches async APIs</li>
+                <li>• Tracks microtask queue</li>
+                <li>• Emits onMicrotaskEmpty</li>
+                <li>• Notifies ApplicationRef</li>
               </ul>
             </div>
-            <div className="bg-gray-900 p-4 rounded-lg">
-              <h4 className="font-semibold text-red-400 mb-2">What Zone.js Does Not Do</h4>
-              <ul className="text-sm space-y-1 text-gray-300">
-                <li>Run change detection</li>
-                <li>Know what changed</li>
-                <li>Update the DOM</li>
-                <li>Track dependencies</li>
+            <div className="bg-gray-900 p-6 rounded-lg">
+              <h4 className="font-semibold text-red-400 mb-4 text-xl">What Zone.js Does Not Do</h4>
+              <ul className="text-lg space-y-2 text-gray-300">
+                <li>• Run change detection</li>
+                <li>• Know what changed</li>
+                <li>• Update the DOM</li>
+                <li>• Track dependencies</li>
               </ul>
             </div>
           </div>
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-xs overflow-x-auto">
-            <div className="text-green-400">// Inside ApplicationRef</div>
-            <pre className="mt-2 text-white">
+          <div className="bg-gray-900 p-6 rounded-lg font-mono text-base overflow-x-auto">
+            <div className="text-green-400 text-lg mb-3">// Inside ApplicationRef</div>
+            <pre className="text-white">
 {`this._zone.onMicrotaskEmpty.subscribe({
   next: () => {
     this._zone.run(() => {
@@ -171,7 +194,7 @@ if (changeDetectionPhase) {
       )
     },
     {
-      title: "Act V: The Unidirectional Data Flow",
+      title: "The Unidirectional Data Flow",
       subtitle: "Why Angular Checks Top-Down",
       content: (
         <div className="space-y-6">
@@ -205,7 +228,7 @@ if (changeDetectionPhase) {
       )
     },
     {
-      title: "Act VI: NG0100 - ExpressionChanged Error",
+      title: "NG0100 - ExpressionChanged Error",
       subtitle: "The Enforcement Mechanism",
       content: (
         <div className="space-y-6">
@@ -246,7 +269,7 @@ CD Run 3: value = C, update DOM
       )
     },
     {
-      title: "Act VII: OnPush Strategy",
+      title: "OnPush Strategy",
       subtitle: "From Global to Selective Checking",
       content: (
         <div className="space-y-6">
@@ -290,13 +313,13 @@ CD Run 3: value = C, update DOM
       )
     },
     {
-      title: "Act VIII: markViewDirty - The Dirtiness Algorithm",
+      title: "markViewDirty - The Dirtiness Algorithm",
       subtitle: "How Dirtiness Bubbles Up",
       content: (
         <div className="space-y-6">
-          <div className="bg-gray-900 p-6 rounded-lg font-mono text-xs overflow-x-auto">
-            <div className="text-green-400">// mark_view_dirty.ts</div>
-            <pre className="mt-2 text-white">
+          <div className="bg-gray-900 p-6 rounded-lg font-mono text-sm overflow-x-auto">
+            <div className="text-green-400 text-lg mb-3">// mark_view_dirty.ts</div>
+            <pre className="text-white">
 {`export function markViewDirty(lView: LView, source: NotificationSource) {
   // v18+: Notify the scheduler
   lView[ENVIRONMENT].changeDetectionScheduler?.notify(source);
@@ -313,9 +336,9 @@ CD Run 3: value = C, update DOM
 }`}
             </pre>
           </div>
-          <div className="bg-blue-900 bg-opacity-30 border border-blue-500 p-4 rounded-lg">
-            <h4 className="font-semibold text-blue-400 mb-2">Why Bubble Up?</h4>
-            <p className="text-sm text-gray-300">
+          <div className="bg-blue-900 bg-opacity-30 border border-blue-500 p-6 rounded-lg">
+            <h4 className="font-semibold text-blue-400 mb-3 text-xl">Why Bubble Up?</h4>
+            <p className="text-lg text-gray-300">
               Angular traverses top-down. If only the child is marked dirty, the parent might skip its subtree. 
               By marking all ancestors, we ensure the dirty component is reached during traversal.
             </p>
@@ -324,7 +347,7 @@ CD Run 3: value = C, update DOM
       )
     },
     {
-      title: "Act IX: The Synchronization Loop",
+      title: "The Synchronization Loop",
       subtitle: "How ApplicationRef.tick Actually Works",
       content: (
         <div className="space-y-6">
@@ -365,7 +388,7 @@ CD Run 3: value = C, update DOM
       )
     },
     {
-      title: "Act X: Signals - The Reactive Graph",
+      title: "Signals - The Reactive Graph",
       subtitle: "From Push Notifications to Pull-Based Computation",
       content: (
         <div className="space-y-6">
@@ -412,7 +435,7 @@ const isEven = computed(() => counter() % 2 === 0);
       )
     },
     {
-      title: "Act XI: Signals + OnPush = Local Change Detection",
+      title: "Signals + OnPush = Local Change Detection",
       subtitle: "Fine-Grained Reactivity Without Zone.js",
       content: (
         <div className="space-y-6">
@@ -446,7 +469,7 @@ Child: RefreshView (reactive consumer dirty)`}
       )
     },
     {
-      title: "Act XII: Zoneless Change Detection",
+      title: "Zoneless Change Detection",
       subtitle: "The Final Form",
       content: (
         <div className="space-y-6">
@@ -484,7 +507,7 @@ Child: RefreshView (reactive consumer dirty)`}
       )
     },
     {
-      title: "Act XIII: Hybrid Mode (v18+)",
+      title: "Hybrid Mode (v18+)",
       subtitle: "The Best of Both Worlds",
       content: (
         <div className="space-y-6">
@@ -534,7 +557,7 @@ zone.runOutsideAngular(() => {
       )
     },
     {
-      title: "Act XIV: detectChanges - Local Change Detection",
+      title: "detectChanges - Local Change Detection",
       subtitle: "Running CD for a Specific Subtree",
       content: (
         <div className="space-y-6">
@@ -583,7 +606,7 @@ export function detectChangesInternal(tView, lView, context) {
       )
     },
     {
-      title: "Act XV: markForCheck - The Dirty Flag API",
+      title: "markForCheck - The Dirty Flag API",
       subtitle: "Requesting Change Detection Without Running It",
       content: (
         <div className="space-y-6">
@@ -629,7 +652,7 @@ export class MyComponent {
       )
     },
     {
-      title: "Act XVI: AsyncPipe - The OnPush Enabler",
+      title: "AsyncPipe - The OnPush Enabler",
       subtitle: "Automatic markForCheck on Observable Emissions",
       content: (
         <div className="space-y-6">
@@ -672,7 +695,7 @@ export class MyComponent {
       )
     },
     {
-      title: "Act XVII: The Problem - Bi-directional Flow",
+      title: "The Problem - Bi-directional Flow",
       subtitle: "When Child Updates Parent During CD",
       content: (
         <div className="space-y-6">
@@ -723,7 +746,7 @@ export class Child implements AfterViewInit {
       )
     },
     {
-      title: "Act XVIII: Traditional Solutions to NG100",
+      title: "Traditional Solutions to NG100",
       subtitle: "Working Around Unidirectional Flow",
       content: (
         <div className="space-y-6">
@@ -797,7 +820,7 @@ export class Child implements AfterViewInit {
       )
     },
     {
-      title: "Act XIX: Signals - The Reactive Primitive",
+      title: "Signals - The Reactive Primitive",
       subtitle: "Fine-Grained Reactivity with Automatic Tracking",
       content: (
         <div className="space-y-6">
@@ -854,7 +877,7 @@ effect(() => {
       )
     },
     {
-      title: "Act XX: The Reactive Graph",
+      title: "The Reactive Graph",
       subtitle: "Producer-Consumer Dependency Tracking",
       content: (
         <div className="space-y-6">
@@ -904,7 +927,7 @@ fullName.producerNode = [firstName, lastName];`}
       )
     },
     {
-      title: "Act XXI: Signal.set → markAncestorsForTraversal",
+      title: "Signal.set → markAncestorsForTraversal",
       subtitle: "How Signals Schedule Change Detection",
       content: (
         <div className="space-y-6">
@@ -963,7 +986,7 @@ function signalValueChanged(node: ReactiveNode) {
       )
     },
     {
-      title: "Act XXII: Global vs Targeted CD Mode",
+      title: "Global vs Targeted CD Mode",
       subtitle: "How Signals Enable Surgical Updates",
       content: (
         <div className="space-y-6">
@@ -1019,7 +1042,7 @@ function signalValueChanged(node: ReactiveNode) {
       )
     },
     {
-      title: "Act XXIII: How Signals Solve NG100",
+      title: "How Signals Solve NG100",
       subtitle: "Bi-directional Flow Without Breaking Invariants",
       content: (
         <div className="space-y-6">
@@ -1071,7 +1094,7 @@ export class Child implements AfterViewInit {
       )
     },
     {
-      title: "Act XXIV: The synchronize() Loop",
+      title: "The synchronize() Loop",
       subtitle: "Allowing Controlled Re-checks",
       content: (
         <div className="space-y-6">
@@ -1128,7 +1151,7 @@ private synchronizeOnce() {
       )
     },
     {
-      title: "Act XXV: Effects - Side Effects with Dependencies",
+      title: "Effects - Side Effects with Dependencies",
       subtitle: "The Final Piece of the Reactive Puzzle",
       content: (
         <div className="space-y-6">
@@ -1175,7 +1198,7 @@ export class MyComponent {
       )
     },
     {
-      title: "Act XXVI: Zoneless in Production",
+      title: "Zoneless in Production",
       subtitle: "What Changes, What Stays",
       content: (
         <div className="space-y-6">
@@ -1225,7 +1248,7 @@ bootstrapApplication(AppComponent, {
       )
     },
     {
-      title: "Act XXVII: The shouldScheduleTick Strategy",
+      title: "The shouldScheduleTick Strategy",
       subtitle: "Hybrid Mode - Best of Both Worlds (v18+)",
       content: (
         <div className="space-y-6">
@@ -1377,32 +1400,35 @@ bootstrapApplication(AppComponent, {
   }, [currentSlide, slides.length]);
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white p-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">{slides[currentSlide].title}</h1>
-          <h2 className="text-xl text-gray-400">{slides[currentSlide].subtitle}</h2>
+    <div className="w-screen h-screen bg-gray-950 text-white overflow-hidden flex items-center justify-center">
+      <div className="w-full h-full max-w-[1920px] max-h-[1080px] flex flex-col p-12">
+        <div className="mb-6">
+          <h1 className="text-5xl font-bold mb-3">{slides[currentSlide].title}</h1>
+          <h2 className="text-2xl text-gray-400">{slides[currentSlide].subtitle}</h2>
         </div>
         
-        <div className="bg-gray-900 rounded-lg p-8 min-h-96">
-          {slides[currentSlide].content}
+        <div className="flex-1 bg-gray-900 rounded-lg p-8 overflow-hidden flex flex-col">
+          <div className="flex-1 overflow-auto">
+            {slides[currentSlide].content}
+          </div>
         </div>
+
         
-        <div className="mt-8 flex items-center justify-between">
+        <div className="mt-6 flex items-center justify-between">
           <button
             onClick={prevSlide}
             disabled={currentSlide === 0}
-            className="flex items-center gap-2 px-6 py-3 bg-blue-600 rounded-lg hover:bg-blue-700 disabled:bg-gray-700 disabled:cursor-not-allowed transition-colors"
+            className="flex items-center gap-3 px-8 py-4 bg-blue-600 rounded-lg hover:bg-blue-700 disabled:bg-gray-700 disabled:cursor-not-allowed transition-colors text-lg font-semibold"
           >
-            <ChevronLeft size={20} />
+            <ChevronLeft size={24} />
             Previous
           </button>
           
           <div className="flex flex-col items-center gap-1">
-            <div className="text-gray-400 text-lg font-semibold">
+            <div className="text-gray-400 text-2xl font-semibold">
               {currentSlide + 1} / {slides.length}
             </div>
-            <div className="text-gray-500 text-xs">
+            <div className="text-gray-500 text-sm">
               Use ← → arrow keys or space to navigate
             </div>
           </div>
@@ -1410,10 +1436,10 @@ bootstrapApplication(AppComponent, {
           <button
             onClick={nextSlide}
             disabled={currentSlide === slides.length - 1}
-            className="flex items-center gap-2 px-6 py-3 bg-blue-600 rounded-lg hover:bg-blue-700 disabled:bg-gray-700 disabled:cursor-not-allowed transition-colors"
+            className="flex items-center gap-3 px-8 py-4 bg-blue-600 rounded-lg hover:bg-blue-700 disabled:bg-gray-700 disabled:cursor-not-allowed transition-colors text-lg font-semibold"
           >
             Next
-            <ChevronRight size={20} />
+            <ChevronRight size={24} />
           </button>
         </div>
       </div>
