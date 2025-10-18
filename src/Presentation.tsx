@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Zap, AlertTriangle, CheckCircle, XCircle, ArrowRight, Activity, GitBranch, Layers, Code, Cpu, Workflow } from 'lucide-react';
+import { Zap, AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
 
 const Presentation = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -2019,65 +2019,31 @@ zone.runOutsideAngular(() => {
   }, [currentSlide, slides.length]);
 
   return (
-    <div className="w-screen h-screen bg-gray-950 text-white overflow-hidden flex items-center justify-center">
-      <div className="w-full h-full max-w-[1920px] max-h-[1080px] flex flex-col p-12">
-        <div className="mb-6 flex items-start justify-between">
-          <div className="flex-1">
-            <h1 className="text-5xl font-bold mb-3">{slides[currentSlide].title}</h1>
-            <h2 className="text-2xl text-gray-400">{slides[currentSlide].subtitle}</h2>
+    <div className="w-screen h-screen bg-gray-950 text-white overflow-hidden flex flex-col">
+      {/* Minimalist Progress Bar */}
+      <div className="w-full bg-gray-900">
+        <div className="max-w-[1920px] mx-auto flex items-center gap-4 text-xs text-gray-500">
+          {/* <span>{currentSlide + 1}/{slides.length}</span> */}
+          <div className="flex-1 bg-gray-800 rounded-full h-1">
+            <div
+              className="bg-blue-500 h-1 rounded-full transition-all duration-300"
+              style={{ width: `${((currentSlide + 1) / slides.length) * 100}%` }}
+            />
           </div>
-          <div className="text-right">
-            <div className="text-lg text-gray-500">
-              Slide {currentSlide + 1} / {slides.length}
-            </div>
-            <div className="text-sm text-gray-600 mt-1">
-              Use ← → or Space | Home/End to jump
-            </div>
-          </div>
+          {/* <span>{Math.round(((currentSlide + 1) / slides.length) * 100)}%</span> */}
         </div>
-        
-        <div className="flex-1 bg-gray-900 rounded-lg p-8 overflow-hidden flex flex-col relative">
-          <div className="flex-1 overflow-auto">
-            {slides[currentSlide].content}
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 flex items-center justify-center overflow-hidden">
+        <div className="w-full h-full max-w-[1920px] flex flex-col p-8">
+          <div className="mb-4">
+            <h1 className="text-3xl font-bold mb-1">{slides[currentSlide].title}</h1>
+            <h2 className="text-lg text-gray-400">{slides[currentSlide].subtitle}</h2>
           </div>
           
-          {/* Navigation Controls */}
-          <div className="absolute bottom-6 left-0 right-0 flex justify-between items-center px-8">
-            <button
-              onClick={prevSlide}
-              disabled={currentSlide === 0}
-              className={`p-3 rounded-full transition-all ${
-                currentSlide === 0
-                  ? 'bg-gray-800 text-gray-600 cursor-not-allowed'
-                  : 'bg-blue-600 hover:bg-blue-700 text-white'
-              }`}
-              aria-label="Previous slide"
-            >
-              <ArrowRight className="rotate-180" size={24} />
-            </button>
-            
-            {/* Progress bar */}
-            <div className="flex-1 mx-8">
-              <div className="w-full bg-gray-800 rounded-full h-2">
-                <div
-                  className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-300"
-                  style={{ width: `${((currentSlide + 1) / slides.length) * 100}%` }}
-                />
-              </div>
-            </div>
-            
-            <button
-              onClick={nextSlide}
-              disabled={currentSlide === slides.length - 1}
-              className={`p-3 rounded-full transition-all ${
-                currentSlide === slides.length - 1
-                  ? 'bg-gray-800 text-gray-600 cursor-not-allowed'
-                  : 'bg-blue-600 hover:bg-blue-700 text-white'
-              }`}
-              aria-label="Next slide"
-            >
-              <ArrowRight size={24} />
-            </button>
+          <div className="flex-1 bg-gray-900 rounded-lg p-6 overflow-auto">
+            {slides[currentSlide].content}
           </div>
         </div>
       </div>
