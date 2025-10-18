@@ -70,6 +70,76 @@ export const slides = [
       )
     },
     {
+      title: "The Classic Angular Error",
+      subtitle: "Expression has changed after it was checked",
+      content: (
+        <div className="flex items-center justify-center h-full p-8">
+          <div className="max-w-4xl w-full">
+            {/* Modern Error Card */}
+            <div className="bg-gradient-to-br from-red-50 to-orange-50 border border-red-200 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
+              {/* Background Pattern */}
+              <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 to-orange-500/5"></div>
+              
+              {/* Error Icon */}
+              <div className="flex items-center justify-center mb-6">
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
+                  <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 19.5c-.77.833.192 2.5 1.732 2.5z" />
+                  </svg>
+                </div>
+              </div>
+              
+              {/* Error Message */}
+              <div className="text-center mb-8">
+                <h3 className="text-2xl font-bold text-gray-800 mb-4">Angular Development Error</h3>
+                <div className="text-5xl font-bold text-gray-900 leading-tight">
+                  Expression has{' '}
+                  <span className="bg-red-100 text-red-800 px-3 py-1 rounded-lg border border-red-200">changed</span>
+                  {' '}after it was checked
+                </div>
+              </div>
+              
+              {/* Code Snippet */}
+              <div className="bg-gray-900 rounded-2xl p-6 mb-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                  <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                  <span className="text-gray-400 text-sm ml-4">console.error</span>
+                </div>
+                <div className="text-green-400 font-mono text-lg">
+                  <div className="text-red-400">ERROR</div>
+                  <div className="text-yellow-400">NG0100: Expression has changed after it was checked</div>
+                  <div className="text-gray-300">Previous value: 'initial'</div>
+                  <div className="text-gray-300">Current value: 'changed'</div>
+                </div>
+              </div>
+              
+              {/* Solution Hint */}
+              <div className="bg-blue-50 border border-blue-200 rounded-2xl p-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-blue-900 mb-2">Common Solutions</h4>
+                    <ul className="text-blue-800 space-y-1 text-sm">
+                      <li>• Use <code className="bg-blue-100 px-1 rounded">setTimeout()</code> to defer the update</li>
+                      <li>• Move state changes to <code className="bg-blue-100 px-1 rounded">ngOnInit</code> or <code className="bg-blue-100 px-1 rounded">ngAfterViewInit</code></li>
+                      <li>• Use <code className="bg-blue-100 px-1 rounded">ChangeDetectorRef.detectChanges()</code></li>
+                      <li>• Consider using <code className="bg-blue-100 px-1 rounded">Signals</code> for reactive updates</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    },
+    {
       title: "Angular Change Detection Deep Dive",
       subtitle: "From Zone.js to Signals: The Complete Journey",
       content: (
